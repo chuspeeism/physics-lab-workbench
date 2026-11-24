@@ -1,0 +1,96 @@
+/* 生活情境 3D 场景的样式（配 scenes.js）。实验页、07 手写页都引用这个文件。
+   07 页的右栏用 --on-fill 等变量，这里给 .rail 里的场景面板映射成实验页的变量名。 */
+/* ════ 生活情境 3D 场景（scenes.js）：舞台左上角切换「实验｜场景」，场景层盖住实验台，右栏盖上场景的操作 ════ */
+.ls-sw { position: absolute; left: 16px; top: 14px; z-index: 8; display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: rgba(255,255,255,.95); box-shadow: 0 2px 10px rgba(30,40,70,.14); }
+.ls-sw button { height: 38px; padding: 0 16px; border: 0; border-radius: 9px; background: transparent; color: var(--ink, #1E3A5F); font: 500 18px var(--cn, sans-serif); cursor: pointer; white-space: nowrap; }
+.ls-sw button:hover { background: var(--blue-l, var(--emphasis-fill, #EBF1FD)); }
+.ls-sw button.on { background: var(--blue, var(--on-fill, #2563EB)); color: #fff; font-weight: 600; }
+.ls-sw button + button[data-s]:not([data-s=""])::before { content: "生活 · "; font-size: 14px; opacity: .7; }
+.ls-on > *:not(.ls-host):not(.ls-sw) { visibility: hidden !important; }
+.ls-host { position: absolute; inset: 0; z-index: 5; }
+.ls-host[hidden], .ls-layer[hidden], .ls-rail[hidden], .ls-rail > [hidden] { display: none !important; }
+.ls-layer { position: absolute; inset: 0; overflow: hidden; }
+.ls-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ls-win { position: absolute; right: 16px; top: 14px; z-index: 3; width: 360px; border: 2px solid var(--ink, #1E3A5F); border-radius: 12px; background: rgba(255,255,255,.97); padding: 8px 10px; }
+.ls-win h3 { margin: 0 0 4px; font-size: 20px; display: flex; justify-content: space-between; align-items: baseline; }
+.ls-win h3 small { font-size: 16px; font-weight: 400; color: var(--t2, #56677D); }
+.ls-win h3 { gap: 10px; }
+.ls-win h3 > span { flex: none; white-space: nowrap; }          /* 「现在：漂浮」这类标题不折行 */
+.ls-win h3 small { min-width: 0; text-align: right; }
+.ls-win canvas, .ls-win svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+.ls-win .cap { margin: 4px 0 0; text-align: center; font-size: 16px; color: var(--t2, #56677D); }
+.lk-rail, .rail { position: relative; }
+.ls-rail { position: absolute; inset: 0; z-index: 6; overflow-y: auto; background: inherit; border-radius: inherit; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; font-family: var(--cn, sans-serif); color: var(--ink, #1E3A5F); }
+.ls-rail > div { display: flex; flex-direction: column; gap: 10px; }
+.ls-title { padding: 2px 2px 6px; border-bottom: 2px solid var(--line, #C3CEDC); }
+.ls-title small { display: block; font-size: 15px; color: var(--blue, #2563EB); font-weight: 600; letter-spacing: .05em; }
+.ls-title b { display: block; font-size: 26px; line-height: 34px; }
+.ls-title p { margin: 2px 0 0; font-size: 16px; line-height: 23px; color: var(--t2, #56677D); }
+.ls-blk { border: 2px solid var(--line, #C3CEDC); border-radius: 12px; padding: 10px 14px 12px; }
+.ls-h { margin: 0 0 8px; font-size: 20px; font-weight: 700; }
+.ls-row { display: flex; align-items: center; gap: 10px; min-height: 40px; }
+.ls-row .nm { flex: none; width: 92px; font-size: 17px; color: var(--t2, #56677D); }
+.ls-row .vl { flex: none; min-width: 76px; text-align: right; font: 600 24px var(--num, sans-serif); font-variant-numeric: tabular-nums; }
+.ls-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.ls-btns button { flex: 1 1 0; min-width: 0; height: 44px; padding: 0 8px; border: 2px solid var(--blue, #2563EB); border-radius: 10px; background: #fff; color: var(--blue, #2563EB); font: 600 18px var(--cn, sans-serif); cursor: pointer; white-space: nowrap; }
+.ls-btns button:hover { background: var(--blue-l, #EBF1FD); }
+.ls-btns button.on, .ls-btns button.main { background: var(--blue, #2563EB); color: #fff; }
+.ls-btns button:disabled { border-color: #C3CEDC; color: #9AA8B9; background: #fff; cursor: default; }
+.ls-big { display: flex; align-items: baseline; gap: 6px; }
+.ls-big b { font: 600 34px/1 var(--num, sans-serif); font-variant-numeric: tabular-nums; }
+.ls-big i { font-style: normal; font-size: 18px; color: var(--t2, #56677D); }
+.ls-note { padding: 10px 12px; border-radius: 10px; background: var(--blue-l, #EBF1FD); font-size: 18px; line-height: 27px; }
+.ls-note b { color: var(--blue, #2563EB); }
+.ls-tip { margin: 0; font-size: 16px; line-height: 23px; color: var(--t2, #56677D); }
+.ls-rail input.rng { width: 100%; }
+/* 场景里：顶栏的读数是实验台的，先藏起来（占位不变，顶栏不跳）；点回「实验」再出现 */
+body.ls-active .lk-hd .lk-rds, body.ls-active .hd .rds { visibility: hidden; }
+/* 样子二（沉浸舞台）：切换条在顶栏下面，和小窗分开两边——
+   实验页的放大小窗在左上，切换条放右上（浮动面板左边）；07 页的「屏上的像」在右上，切换条放左上，场景小窗也放右上 */
+.dz-style-stage .ls-sw { left: auto; right: 504px; top: 104px; }
+.dz-style-stage .bd-stage .ls-sw { left: 28px; right: auto; }
+.dz-style-stage .ls-win { right: auto; left: 28px; margin-top: 92px; border: 0; border-radius: 20px; box-shadow: 0 10px 30px rgba(30,40,70,.13); }
+.dz-style-stage .bd-stage .ls-win { left: auto; right: 504px; }
+.dz-style-stage .ls-rail { padding-top: 18px; background: #fff; }   /* 不透明：下面实验台的字不透上来 */
+/* 样子三（手绘本） */
+.dz-style-hand .ls-sw { border: 2px solid #2B2B2B; border-radius: 10px 6px 11px 7px / 7px 11px 6px 10px; box-shadow: 3px 4px 0 rgba(0,0,0,.08); }
+.dz-style-hand .ls-sw button { font-family: "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans SC", "Noto Sans CJK SC", sans-serif; }
+.dz-style-hand .ls-blk { border-style: dashed; border-color: #8E877A; }
+.dz-style-hand .ls-title b, .dz-style-hand .ls-h { font-family: "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans SC", "Noto Sans CJK SC", sans-serif; }
+.dz-style-hand .ls-win { border: 2px solid #2B2B2B; border-radius: 12px 7px 13px 8px / 8px 13px 7px 12px; }
+
+/* 07 手写页：变量名映射 */
+.rail .ls-rail { --blue: var(--on-fill); --blue-l: var(--emphasis-fill); --ink: var(--text-1); --t2: var(--text-2); --line: #C9D2DC; --cn: var(--font-sans); --num: var(--font-num); }
+.dz-style-stage .rail .ls-rail { background: #fff; }
+
+/* 沉浸舞台：浮动右栏要盖在场景画面上面，按钮才点得到 */
+.dz-style-stage .lk-rail, .dz-style-stage .rail { z-index: 6; }
+
+/* 带参数的情境标签（ctx.tag 第 4 个参数）：位置由 scenes.js 排好，不再整体上移；小号样式；引线；左下角操作提示 */
+.ls-tags .lk-tag.ls-tag2 { transform: none; }
+.ls-tags .lk-tag.ls-sm { padding: 2px 8px; border-width: 1.5px; border-radius: 8px; font-size: 16px; font-weight: 600; }
+.ls-leads { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.ls-leads line { stroke: var(--ink, #1E3A5F); stroke-width: 1.5; opacity: .55; }
+.ls-leads circle { fill: var(--ink, #1E3A5F); opacity: .7; }
+.ls-hint { position: absolute; left: 16px; bottom: 12px; margin: 0; padding: 6px 12px; border-radius: 8px; background: rgba(255,255,255,.9); color: var(--t2, #56677D); font-size: 16px; pointer-events: none; }
+.dz-style-stage .ls-hint { bottom: 20px; left: 28px; }
+.ls-layer .ls-tags .lk-tag.ls-sm { padding: 2px 8px; border-width: 1.5px; border-radius: 8px; font-size: 16px; }
+.ls-spot { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; border: 3px solid var(--obs, #FE752D); background: rgba(254,117,45,.25); pointer-events: none; animation: lsSpot 1.6s ease-out infinite; }
+@keyframes lsSpot { 0% { box-shadow: 0 0 0 0 rgba(254,117,45,.55); } 100% { box-shadow: 0 0 0 18px rgba(254,117,45,0); } }
+body.dz-tags-hide .ls-spot { display: none; }
+
+/* 出错提示、「检查画面」按钮和结果框（scenes.js） */
+.ls-err { position: absolute; left: 16px; right: 16px; top: 64px; margin: 0; padding: 8px 12px; border-radius: 8px; background: #FFE6DA; color: #C1361A; font-size: 16px; pointer-events: none; z-index: 4; }
+.ls-chk { position: absolute; right: 14px; bottom: 12px; z-index: 5; padding: 6px 14px; border: 1.5px solid var(--line, #C3CEDC); border-radius: 8px; background: rgba(255,255,255,.92); color: var(--t2, #56677D); font-size: 15px; cursor: pointer; }
+.ls-chk:hover { border-color: var(--blue, #2563EB); color: var(--blue, #2563EB); }
+.dz-style-stage .ls-chk { right: 510px; bottom: 20px; }
+.ls-chkbox { position: absolute; right: 14px; bottom: 54px; z-index: 6; width: 560px; max-height: calc(100% - 140px); overflow: auto; padding: 14px 16px; border: 2px solid var(--ink, #1E3A5F); border-radius: 12px; background: #fff; box-shadow: 0 10px 30px rgba(30,40,70,.18); font-size: 15px; color: var(--ink, #1E3A5F); }
+.dz-style-stage .ls-chkbox { right: 510px; }
+.ls-chkbox h3 { margin: 0 0 8px; font-size: 18px; } .ls-chkbox h3 small { font-weight: 400; color: var(--t2, #56677D); font-size: 15px; margin-left: 8px; }
+.ls-chkbox ol { margin: 0 0 8px; padding-left: 22px; } .ls-chkbox li { margin: 4px 0; line-height: 1.5; }
+.ls-chkbox li b { display: inline-block; margin-right: 6px; padding: 0 6px; border-radius: 4px; font-size: 13px; font-weight: 600; }
+.ls-chkbox li.e b { background: #FFE6DA; color: #C1361A; } .ls-chkbox li.w b { background: #FFF1D6; color: #9A5B00; } .ls-chkbox li.i b { background: #E3ECFF; color: #2563EB; }
+.ls-chkbox .ok { color: #1B7A50; } .ls-chkbox .tip { margin: 6px 0 4px; color: var(--t2, #56677D); }
+.ls-chkbox textarea { width: 100%; height: 120px; box-sizing: border-box; font: 13px/1.5 var(--cn, sans-serif); border: 1px solid var(--line, #C3CEDC); border-radius: 6px; padding: 6px; resize: vertical; }
+.ls-chkbox .bt { display: flex; gap: 8px; margin-top: 8px; } .ls-chkbox .bt button { padding: 6px 14px; border: 1.5px solid var(--line, #C3CEDC); border-radius: 8px; background: #fff; font-size: 15px; cursor: pointer; }
+.ls-chkbox .bt button.main { background: var(--blue, #2563EB); border-color: var(--blue, #2563EB); color: #fff; }
